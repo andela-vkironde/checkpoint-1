@@ -7,8 +7,20 @@ class Song
   def self.all
     @@all
   end
+  def self.destroy_all
+    @@all = []
+  end
+  def save
+    @@all.push(self)
+    self
+  end
+
+  def self.create(name)
+    new(name).save
+  end
+
+
+
 
 
 end
-
-cool = Song.new("Thsi.mp3")
