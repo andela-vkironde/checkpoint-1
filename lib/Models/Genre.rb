@@ -21,8 +21,13 @@ class Genre
   def self.create(name)
     new(name).save
   end
-  def songs=(songs)
+
+  def artists
+    _artists = []
+    @songs.each do |song|
+      _artists.push song.artist unless _artists.include? song.artist
+    end
+    _artists
   end
-  
 
 end

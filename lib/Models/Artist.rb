@@ -23,4 +23,11 @@ class Artist
       @songs.push(song) unless @songs.include? song
       song.artist = self unless song.artist
   end
+  def genres
+    _genres = []
+    @songs.each do |song|
+      _genres.push song.genre unless _genres.include? song.genre
+    end
+    _genres
+  end
 end
