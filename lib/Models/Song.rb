@@ -1,4 +1,5 @@
 class Song
+  extend Concerns::Findable
   attr_accessor :name
   attr_reader :artist, :genre
   @@all = []
@@ -30,9 +31,5 @@ class Song
     @genre = value
     @genre.songs.push(self) unless @genre.songs.include? self
   end
-
-
-
-
-
+  
 end
