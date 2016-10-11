@@ -33,6 +33,14 @@ class MusicLibraryController
         else
           puts "artist not found"
       end
+    when "play song"
+      puts "Song no.:"
+      song_index = gets.chomp
+      Song.all.each_with_index do |song, index|
+        if index +1 == song_index.to_i
+          puts " Playing #{song.artist.name} - #{song.name} - #{song.genre.name}"
+        end
+      end
     when "list genre"
       puts "Enter a genre"
       genre = Genre.find_by_name(gets.chomp)
@@ -43,6 +51,8 @@ class MusicLibraryController
       else
         puts "genre not found"
     end
+
+
       end
       break if choice == "exit"
     end
