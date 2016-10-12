@@ -1,105 +1,73 @@
-# Ruby Music Library
+[![Build Status](https://travis-ci.org/andela-vkironde/checkpoint-1.svg?branch=develop)](https://travis-ci.org/andela-vkironde/checkpoint-1)
+#Music Library Application
 
-## Overview
+##Project Description
 
-You're going to be implementing a Music Library domain composed of 3 main models, `Song`, `Artist`, and `Genre` that will relate to each other and collaborate heavily. Additionally, you're going to be extracting some common functionality of those models into a module, `Concerns::Findable` and mixing that module into those classes. You'll then build a collaborating object, `MusicImporter`, that can parse a directory of MP3 files and use the filenames to create instances of `Song`, `Artist`, and `Genre`. Finally, you'll build a CLI in `bin/musiclibrary` that is powered by a `MusicLibraryController` to provide a simple CLI that let's a user browse the library of MP3s imported by song, artist, and genre.
+Music Library Application is a Command Line Application built with Ruby. It allows a user to import `.mp3` files from a path.
+The user can then use the provided commands to list all `songs`, `artists` or `genres`. The user can also list songs based on a genre or artist. He can also `play a song` .
 
-This is a complex lab with many parts, go slow, try to understand what you're trying to build holistically before starting. Read this entire README before jumping in. As you go from spec to spec, we recommend doing them in numbered order.
+## Prerequisities
 
-## Concerns
+  1. [Ruby](https://github.com/rbenv/rbenv)
+  2. [Bundler](http://bundler.io/)
+  3. [RSpec](http://rspec.info/)
 
-A quick note on the placement of Modules. It's Ruby convention to put all Modules in a `concerns` folder and to be namespaced like this `Concerns::ModuleName`.
+##Commands and Features
+The commands are:
 
-## Instructions
+    list songs - lists all the songs in the path
 
-## `Song`, `Artist`, and `Genre` Basics
+    list artists - lists all the artists in the path
 
-The first thing to do is get the basics of the main models working. Each model has almost the exact same basic requirements, so once you make `001_song_basics_spec.rb` pass by building the `Song` class, the `Artist` and `Genre` basic specs will go fast.
+    list genres - lists all the genres in the path
 
-The requirements of each model is that they can accept a name upon initialization and set that property correctly. The `name` property should be readable and writeable by the object.
+    list artist - lists all the songs in the path based on the artist given
 
-```ruby
-Song.new("Blank Space").name #=> "Blank Space"`
-```
+    list genre - lists all the songs in the path based on the genre given
 
-Additionally, each class should contain a class variable `@@all` that is set to an empty array and is prepared to store all saved instances. This class variable should be accessible via the class method `.all`.
+    play song - plays the song according to the specified song number
 
-```ruby
-Song.all #=> []
-```
+    exit - exits the program
 
-Instances should respond to a `#save` method that adds the instance itself into the class variable `@@all`.
+##Instructions for getting started
+###Installation
 
-```ruby
-Song.new("Blank Space").save
-Song.all #=> [#<Song: @name="Blank Space">]
-```
+Clone the repo:
 
-The class should be able to empty it's `@@all` array via a class method `.destroy_all`.
+    $  git clone https://github.com/andela-vkironde/checkpoint-1.git
 
-```ruby
-Song.new("Blank Space").save
-Song.all #=> [#<Song: @name="Blank Space">]
-Song.destroy_all
-Song.all #=> []
-```
+Enter the repo's directory:
 
-Finally, all classes should implement a custom constructor `.create` that instantiates an instance using `.new` but also evokes `#save` on that instance, forcing it to persist immediately.
+    $  cd checkpoint-1
 
-```ruby
-Song.new("Blank Space")
-Song.all #=> []
-Song.create("Blank Space")
-Song.all #=> [#<Song: @name="Blank Space">]
-```
+Install dependancies:
 
-## Relationships
+    $  bundle install
 
-### Songs and Artists
+###Running the application
 
- * Songs belong to an Artist and an Artist has many songs. Adding a song to an Artist is done by calling an `#add_song` method on an instance of the `Artist` class
- * Songs can be initialized with an optional `Artist` argument
+In the checkpoint-1 directory, run this command
 
-### Songs and Genres
+    $  bin/musiclibrary
 
-  * Genres have many songs and are initialized with an empty list of songs
-  * Songs have one genre
-  * Songs can be initialized with an optional genre
+###Running the tests
 
-### Artists and Genres
+In the checkpoint-1 directory, run this command:
 
-  * `Artist`s have many `Genre`s through `Song`. Implement a `#genres` method for this association.
-  * `Genre`s have many `Artists`s through `Song`. Implement a `#artists` method for this association.
+`$  bundle exec rspec` for the first time then
 
-## Finding
+`rspec` after the first time
 
-### Song
-First implement the following two methods in your `Song` class
+The application should pass all the 70 tests    
 
-  * Songs should have a `find_by_name` method.
-  * Songs should have a `find_or_create_by_name` method.
+##Creating a similar application
 
-Now that you've done that, let's generalize those methods by putting them into a module and then including that module in the `Genre` and `Artist` class.
+To create a similar application from scratch, follow the instructions [here](https://github.com/andela-hmasila/checkpoint-one-music-library/wiki/Instructions-of-creating-the-music-library-application)
 
-### Concerns::Findable
+##Limitations:
 
-  * Implement a generic `#find_by_name` method that uses the `.all` method defined by the class to find by name.
-  * Implement a generic `#find_or_create_by_name` method that uses the `.all` method defined by the class.
-  * Add this module to your `Genre` and `Artist` class.
+    The files MUST be saved in ruby-music-library/db/mp3s directory (path) to be recognized by the application
 
+    The files MUST be named in the format "artist name" - "song name" - "genre"
 
-## Music Importer
-
-Create a Music Importer class to work with your `Song`, `Genre` and `Artist` objects to import a directory of mp3s. This class will have the following methods:
-
-  * Initialize accepts a file path of mp3 files
-  * A `#files` method that will return all of the filenames
-  * Add a new method to the `Song` class called `.new_from_filename` that creates a `Song` based on a filename
-  * Add a new method to the `Song` class called `.create_from_filename` that creates a `Song` based on a filename and saves it to the `@@all` class variable
-  * In your `MusicImporter` class, add an `.import` method that imports all the files from the library and creates the `Song` objects.
-
-## CLI and Music Importer Controller
-Congrats! You've done the heavy lifting. Now let's wrap it all up in a CLI so that users can actually interact with our code.
-
-  * Initializes with an optional path to the music, but defaults to `./db/mp3s`. It creates a `MusicImporter` and imports the music.
-  * Add a `#call` method that starts the CLI and asks the user for input. Check out the tests for specifics
+    You cannot play a song by typing the song name. Type its special (index) number instead.
