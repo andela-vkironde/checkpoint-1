@@ -1,14 +1,11 @@
-class Song
+class Song < BaseModel
   extend Concerns::Findable
-  extend Concerns::Base
-  include Concerns::Saving
-
   attr_accessor :name
   attr_reader :artist, :genre
-  @@all = []
+  @all = []
 
   def initialize(name, artist = nil, genre = nil)
-    @name = name
+    super(name)
     self.artist = artist if artist
     self.genre = genre if genre
   end

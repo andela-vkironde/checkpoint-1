@@ -1,11 +1,10 @@
-class Artist
+class Artist < BaseModel
   extend Concerns::Findable
-  extend Concerns::Base
-  include Concerns::Saving
   attr_accessor :name, :songs
-  @@all = []
+  @all = []
+
   def initialize(name)
-    @name = name
+    super(name)
     @songs = []
   end
 
