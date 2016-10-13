@@ -32,11 +32,26 @@ class CLI
     Genre.all.each { |genre| puts genre.name.to_s }
   end
 
+  def check_song_number?(song_index)
+    if /[^0-9]/ =~ song_index
+      return false
+    elsif (1..Song.all.length).include?(song_index.to_i)
+      return true
+    else
+      return false
+    end
+
+  end
+
   def play_song(song_index)
+    if check_song_number?(song_index)
     Song.all.each_with_index do |song, index|
       if index + 1 == song_index.to_i
         puts "Playing #{song.artist.name} - #{song.name} - #{song.genre.name} "
       end
+    end
+    else
+      puts "Please Enter A Valid Song Number."
     end
   end
 

@@ -54,6 +54,7 @@ class MusicLibraryController
 
   def play_song
     puts "Please Enter a Song Number:"
+
     song_index = gets.chomp
     cli.play_song(song_index)
   end
