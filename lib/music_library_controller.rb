@@ -43,13 +43,13 @@ class MusicLibraryController
   def list_genre
     puts "Enter a genre"
     genre = Genre.find_by_name(gets.chomp)
-    cli.list_genre(genre)
+    cli.list_by_category(genre)
   end
 
   def list_artist
     puts "Please Enter an Artist's name: "
     artist = Artist.find_by_name(gets.chomp)
-    cli.list_artist(artist)
+    cli.list_by_category(artist)
   end
 
   def play_song

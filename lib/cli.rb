@@ -32,16 +32,6 @@ class CLI
     Genre.all.each { |genre| puts genre.name.to_s }
   end
 
-  def list_artist(artist)
-    if artist
-      artist.songs .each do |song|
-        puts "#{song.artist.name} - #{song.name} - #{song.genre.name}"
-      end
-    else
-      puts "Artist not found"
-    end
-  end
-
   def play_song(song_index)
     Song.all.each_with_index do |song, index|
       if index + 1 == song_index.to_i
@@ -50,13 +40,13 @@ class CLI
     end
   end
 
-  def list_genre(genre)
-    if genre
-      genre.songs .each do |song|
+  def list_by_category(category)
+    if category
+      category.songs .each do |song|
         puts "#{song.artist.name} - #{song.name} - #{song.genre.name}"
       end
     else
-      puts "Genre not found"
+      puts "#{category} not found"
     end
   end
 
