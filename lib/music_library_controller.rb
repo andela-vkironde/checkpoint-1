@@ -58,4 +58,8 @@ class MusicLibraryController
     song_index = gets.chomp
     cli.play_song(song_index)
   end
+
+  def stop_song
+    puts "Song Stopped."
+  end
 end
